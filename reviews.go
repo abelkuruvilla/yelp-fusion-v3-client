@@ -19,7 +19,7 @@ type User struct {
 }
 
 type ReviewResponse struct {
-	Total             int      `json:"total,omitempty"`
+	Total             uint     `json:"total,omitempty"`
 	PossibleLanguages []string `json:"possible_languages,omitempty"`
 	Reviews           []Review `json:"reviews,omitempty"`
 }

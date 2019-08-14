@@ -6,7 +6,7 @@ import (
 )
 
 type Event struct {
-	AttendingCount  int       `json:"attending_count,omitempty"`
+	AttendingCount  uint      `json:"attending_count,omitempty"`
 	Category        string    `json:"category,omitempty"`
 	Cost            float64   `json:"cost,omitempty"`
 	CostMax         float64   `json:"cost_max,omitempty"`
@@ -14,7 +14,7 @@ type Event struct {
 	EventSiteURL    string    `json:"event_site_url,omitempty"`
 	ID              string    `json:"id,omitempty"`
 	ImageURL        string    `json:"image_url,omitempty"`
-	InterestedCount int       `json:"interested_count,omitempty"`
+	InterestedCount uint      `json:"interested_count,omitempty"`
 	IsCanceled      bool      `json:"is_canceled,omitempty"`
 	IsFree          bool      `json:"is_free,omitempty"`
 	IsOfficial      bool      `json:"is_official,omitempty"`
@@ -35,22 +35,22 @@ type EventGetParam struct {
 type EventSearchParam struct {
 	Locale         string   `json:"locale,omitempty"`
 	Offset         int      `json:"offset,omitempty"`
-	Limit          int      `json:"limit,omitempty"`
+	Limit          uint     `json:"limit,omitempty"`
 	SortBy         string   `json:"sort_by,omitempty"`
 	SortOn         string   `json:"sort_on,omitempty"`
 	StartDate      int      `json:"start_date,omitempty"`
 	EndDate        int      `json:"end_date,omitempty"`
-	Categories     int      `json:"categories,omitempty"`
+	Categories     string   `json:"categories,omitempty"`
 	IsFree         bool     `json:"is_free,omitempty"`
 	Location       string   `json:"location,omitempty"`
 	Latitude       float64  `json:"latitude,omitempty"`
 	Longitude      float64  `json:"longitude,omitempty"`
-	Radius         int      `json:"radius,omitempty"`
+	Radius         uint     `json:"radius,omitempty"`
 	ExcludedEvents []string `json:"excluded_events,omitempty"`
 }
 
 type EventSearchResponse struct {
-	Total  int     `json:"total,omitempty"`
+	Total  uint    `json:"total,omitempty"`
 	Events []Event `json:"events,omitempty"`
 }
 

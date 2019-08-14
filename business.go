@@ -16,7 +16,7 @@ type Business struct {
 	Url          string         `json:"url,omitempty"`
 	Phone        string         `json:"phone,omitempty"`
 	DisplayPhone string         `json:"display_phone,omitempty"`
-	ReviewCount  int            `json:"review_count,omitempty"`
+	ReviewCount  uint           `json:"review_count,omitempty"`
 	Categories   []Category     `json:"categories,omitempty"`
 	Rating       float64        `json:"rating,omitempty"`
 	Location     Location       `json:"location,omitempty"`
@@ -64,7 +64,7 @@ type BusinessSearchParams struct {
 }
 
 type BusinessSearchResponse struct {
-	Total      int        `json:"total,omitempty"`
+	Total      uint       `json:"total,omitempty"`
 	Businesses []Business `json:"businesses,omitempty"`
 }
 
@@ -74,7 +74,7 @@ type PhoneSearchParams struct {
 }
 
 type PhoneSearchResponse struct {
-	Total      int        `json:"total,omitempty"`
+	Total      uint       `json:"total,omitempty"`
 	Businesses []Business `json:"businesses,omitempty"`
 }
 
