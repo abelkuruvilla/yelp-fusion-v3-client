@@ -16,14 +16,13 @@ const (
 
 // Client provides methods to perform requests on the Yelp API
 type Client struct {
-	AuthOptions AuthOptions
-	Debug       bool
+	Options ClientOptions
 }
 
 // NewClientCustom creates a new Client instance
-func NewClientCustom(authOptions AuthOptions) Client {
+func NewClientCustom(clientOptions ClientOptions) Client {
 	return Client{
-		AuthOptions: authOptions,
+		Options: clientOptions,
 	}
 }
 
@@ -39,11 +38,11 @@ func NewClient() (*Client, error) {
 
 		if errEnv == nil {
 			// Return client from file variables
-			client.AuthOptions = ao
+			client.Options = ao
 			return client, nil
 		}
 		// Error fetching from env
-		return &Client{AuthOptions: ao}, nil
+		return &Client{Options: ao}, nil
 
 	}
 	if errEnv == nil {
@@ -56,7 +55,7 @@ func NewClient() (*Client, error) {
 
 func (client *Client) request(method string, endpoint string, params map[string]interface{}, response interface{}) error {
 	url := fmt.Sprintf("%s%s", yelpURL, endpoint)
-	if client.Debug {
+	if client.Options.Debug {
 		log.Printf("%s %s %+v\n", method, url, params)
 	}
 	httpClient := &http.Client{}
@@ -69,7 +68,7 @@ func (client *Client) request(method string, endpoint string, params map[string]
 		return err
 	}
 	req.ContentLength = int64(len(paramsAsBytes))
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", client.AuthOptions.APIKey))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", client.Options.APIKey))
 	res, err := httpClient.Do(req)
 	if err != nil {
 		return err
@@ -83,7 +82,9 @@ func (client *Client) request(method string, endpoint string, params map[string]
 
 		// If status moved error
 		if res.StatusCode == http.StatusMovedPermanently {
-
+			if client.Options.Debug {
+				log.Print("Business Migrated to new id")
+			}
 			var eb errorBody
 			if err := json.Unmarshal(data, &eb); err != nil {
 				return err
@@ -93,7 +94,15 @@ func (client *Client) request(method string, endpoint string, params map[string]
 
 		return errors.New(string(data))
 	}
-	json.NewDecoder(res.Body).Decode(response)
+	if client.Options.Debug {
+		log.Print("Retrieved Response. Unmarashelling...")
+	}
+	if err := json.NewDecoder(res.Body).Decode(response); err != nil {
+		return err
+	}
+	if client.Options.Debug {
+		log.Print("Response body : %v", response)
+	}
 	return nil
 }
 

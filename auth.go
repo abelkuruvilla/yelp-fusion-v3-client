@@ -9,14 +9,15 @@ import (
 )
 
 // AuthOptions contains authentication options for the Yelp API
-type AuthOptions struct {
+type ClientOptions struct {
 	APIKey string `json:"api_key"`
+	Debug  bool   `json:"debug"`
 }
 
-// AuthOptionsFromJsonFile returns an AuthOptions object populated
+// AuthOptionsFromJsonFile returns an ClientOptions object populated
 // from a JSON file
-func AuthOptionsFromJsonFile(configPath string) (AuthOptions, error) {
-	authOptions := AuthOptions{}
+func AuthOptionsFromJsonFile(configPath string) (ClientOptions, error) {
+	authOptions := ClientOptions{}
 	bytes, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		return authOptions, err
@@ -41,16 +42,16 @@ func clientFromEnvVariables() (*Client, error) {
 			return nil, err
 		}
 		return &Client{
-			AuthOptions: AuthOptions{
+			Options: ClientOptions{
 				APIKey: yelpKey,
+				Debug:  dbug,
 			},
-			Debug: dbug,
 		}, nil
 	}
 
 	// No debug env variable
 	return &Client{
-		AuthOptions: AuthOptions{
+		Options: ClientOptions{
 			APIKey: yelpKey,
 		},
 	}, nil
