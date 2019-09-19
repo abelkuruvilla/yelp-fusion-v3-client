@@ -3,9 +3,9 @@ package yelp
 import "time"
 
 type Hour struct {
-	IsOpenNow bool     `json:"is_open_now,omitempty"`
-	HoursType string   `json:"hours_type,omitempty"`
-	Open      OpenTime `json:"open,omitempty"`
+	IsOpenNow bool       `json:"is_open_now,omitempty"`
+	HoursType string     `json:"hours_type,omitempty"`
+	Open      []OpenTime `json:"open,omitempty"`
 }
 type OpenTime struct {
 	Day         uint   `json:"day,omitempty"`
